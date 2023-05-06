@@ -25,7 +25,7 @@ export class AuthService {
       email,
       phoneNumber,
       transactions,
-      accountNumber,
+      accountNumber: 0,
       accountName,
       bankName: 'roseBank',
       password: hashedPassword,

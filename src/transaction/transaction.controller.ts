@@ -10,10 +10,9 @@ export class TransactionController {
   @Post('/:userId/deposit')
   deposit(
     @Param('userId') userId: string,
-    @Body('amount') amount: number,
-    // @Body() transactionDto: TransactionDto,
+    @Body() transactionDto: TransactionDto,
   ) {
-    return this.transactionService.deposit(userId, amount);
+    return this.transactionService.deposit(userId, transactionDto);
   }
   @Post('/:userId/withdrawal')
   makeWithdrawal(

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './schemas/transaction.schema';
 import { User } from 'src/auth/schemas/user.schema';
@@ -21,25 +21,31 @@ export class TransactionService {
 
     return { user };
   }
-  async deposit(userId: string, amount: number) {
-    // const { userId, amount } = transactionDto;
+  async deposit(userId: string, transactionDto: TransactionDto) {
+    const { amount, createdAt } = transactionDto;
     const user = await this.userModel.findById(userId);
 
     if (!user) {
       throw new Error('User not found');
     }
+    // const newBalance = user.accountBalance + amount;
 
     user.accountBalance += amount;
     await user.save();
+    if (amount <= 0) {
+      throw new BadRequestException('Amount must be greater than zero');
+    }
 
-    const transaction = await this.transactionModel.create({
+    const transaction = new this.transactionModel({
       userId,
       amount,
+
       transactionType: 'deposit',
+      createdAt,
     });
     await transaction.save();
 
-    return { transaction };
+    return { message: 'Deposit successful' };
   }
 
   async makeWithdrawal(userId: string, amount: number) {
@@ -61,7 +67,7 @@ export class TransactionService {
     user.accountBalance -= amount;
     await user.save();
     await transaction.save();
-    return { transaction };
+    return { message: 'Your Withdrawal is successful' };
   }
 
   async getTransactionHistory(userId: string): Promise<Transaction[]> {
