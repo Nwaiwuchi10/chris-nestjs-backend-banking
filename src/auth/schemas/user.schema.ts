@@ -19,7 +19,7 @@ export class User {
   password: string;
 
   @Prop({ required: true, unique: true })
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Prop({ required: true })
   accountNumber: number;
@@ -30,7 +30,7 @@ export class User {
   @Prop({ required: true })
   bankName: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: 0 })
   accountBalance: number;
 
   @Prop([{ type: Types.ObjectId, ref: 'Transaction' }])

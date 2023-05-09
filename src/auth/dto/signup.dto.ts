@@ -21,9 +21,9 @@ export class SignUpDto {
   readonly password: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @MaxLength(11)
-  readonly phoneNumber: Number;
+  readonly phoneNumber: string;
   readonly bankName: string;
   readonly accountName: string;
   readonly transactions: [];

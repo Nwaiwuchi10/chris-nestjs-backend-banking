@@ -14,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  async signUp(signUpDto: SignUpDto): Promise<{ token: string; result: any }> {
     const { name, email, password, phoneNumber, transactions } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,15 +25,16 @@ export class AuthService {
       email,
       phoneNumber,
       transactions,
-      accountNumber: 0,
+      accountNumber,
       accountName,
       bankName: 'roseBank',
       password: hashedPassword,
     });
 
     const token = this.jwtService.sign({ id: user._id });
+    const result = await user.save();
 
-    return { token };
+    return { token, result };
   }
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
