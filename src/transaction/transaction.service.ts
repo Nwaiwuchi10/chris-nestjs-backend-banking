@@ -44,7 +44,7 @@ export class TransactionService {
       createdAt,
     });
     await transaction.save();
-
+    user.transactions.push(transaction);
     return { message: 'Deposit successful' };
   }
 

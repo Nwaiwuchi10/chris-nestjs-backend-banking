@@ -7,14 +7,14 @@ import { Transaction } from './schemas/transaction.schema';
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}
 
-  @Post('/:userId/deposit')
+  @Post('/deposit/:userId')
   deposit(
     @Param('userId') userId: string,
     @Body() transactionDto: TransactionDto,
   ) {
     return this.transactionService.deposit(userId, transactionDto);
   }
-  @Post('/:userId/withdrawal')
+  @Post('/withdrawal/:userId')
   makeWithdrawal(
     @Param('userId') userId: string,
     @Body('amount') amount: number,

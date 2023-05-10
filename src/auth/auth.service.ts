@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
@@ -84,5 +88,18 @@ export class AuthService {
       phoneNumber: user.phoneNumber,
       _id: user._id,
     };
+  }
+  async findAll() {
+    const users = await this.userModel.find();
+    return users;
+  }
+
+  async findById(_id: string) {
+    const user = await this.userModel.findById(_id);
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return user;
   }
 }
