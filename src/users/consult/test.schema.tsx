@@ -6,7 +6,7 @@ export interface UserAccount extends Document {
   accountNumber: string;
   pin: string;
 }
-
+// "build": "nest build",
 const userAccountSchema = new Schema<UserAccount>({
   phoneNumber: { type: String, required: true, unique: true },
   password: { type: String, required: true },
