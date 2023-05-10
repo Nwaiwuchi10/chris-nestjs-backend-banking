@@ -22,7 +22,7 @@ export class User {
   phoneNumber: string;
 
   @Prop({ required: true })
-  accountNumber: number;
+  accountNumber: string;
 
   @Prop({})
   accountName: string;
@@ -33,6 +33,8 @@ export class User {
   @Prop({ required: true, default: 0 })
   accountBalance: number;
 
+  // @Prop({ type: Types.ObjectId, ref: 'Transaction' })
+  // transactions: Transaction;
   @Prop([{ type: Types.ObjectId, ref: 'Transaction' }])
   transactions: Transaction[];
 }

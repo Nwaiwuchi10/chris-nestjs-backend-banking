@@ -10,6 +10,8 @@ import {
   Transaction,
   TransactionSchema,
 } from 'src/transaction/schemas/transaction.schema';
+import { MailModule } from 'src/mail/mail.module';
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -28,7 +30,9 @@ import {
     MongooseModule.forFeature([
       { name: 'Transaction', schema: TransactionSchema },
     ]),
+    MailModule,
   ],
+
   controllers: [AuthController],
   providers: [AuthService],
 })

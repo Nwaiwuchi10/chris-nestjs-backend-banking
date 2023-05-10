@@ -6,16 +6,22 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { ConfigService } from '@nestjs/config';
+import { MailService } from 'src/mail/mail.service';
+
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
+  // const mailConfig = this.configService.get('mail');
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string; result: any }> {
-    const { name, email, password, phoneNumber, transactions } = signUpDto;
+  async signUp(signUpDto: SignUpDto) {
+    const { name, email, password, phoneNumber, transactions, bankName } =
+      signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountNumber = phoneNumber;
@@ -27,16 +33,32 @@ export class AuthService {
       transactions,
       accountNumber,
       accountName,
-      bankName: 'roseBank',
+      bankName: 'chrisBank',
       password: hashedPassword,
     });
+    await user.save();
+    this.jwtService.sign({
+      id: user._id,
+    });
 
-    const token = this.jwtService.sign({ id: user._id });
-    const result = await user.save();
-
-    return { token, result };
+    await this.mailService.sendRegistrationEmail(
+      email,
+      name,
+      accountNumber,
+      accountName,
+      bankName,
+    );
+    return {
+      email: user.email,
+      name: user.name,
+      accountNumber: user.accountNumber,
+      accountName: user.accountName,
+      bankName: user.bankName,
+      phoneNumber: user.phoneNumber,
+      _id: user._id,
+    };
   }
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -51,8 +73,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const token = this.jwtService.sign({ id: user._id });
+    this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return {
+      email: user.email,
+      name: user.name,
+      accountNumber: user.accountNumber,
+      accountName: user.accountName,
+      bankName: user.bankName,
+      phoneNumber: user.phoneNumber,
+      _id: user._id,
+    };
   }
 }

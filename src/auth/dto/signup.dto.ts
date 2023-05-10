@@ -26,5 +26,6 @@ export class SignUpDto {
   readonly phoneNumber: string;
   readonly bankName: string;
   readonly accountName: string;
+  readonly accountNumber: string;
   readonly transactions: [];
 }

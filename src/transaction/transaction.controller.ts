@@ -22,11 +22,11 @@ export class TransactionController {
   ) {
     return this.transactionService.makeWithdrawal(userId, amount);
   }
-  //   @Get(':userId')
-  //   async getUserId(@Param('userId') userId: string) {
-  //     // code to retrieve transaction history for the user
-  //     return await this.transactionService.getUserId(userId);
-  //   }
+  // @Get(':userId')
+  // async getUserId(@Param('userId') userId: string) {
+  //   // code to retrieve transaction history for the user
+  //   return await this.transactionService.getUserId(userId);
+  // }
   @Get(':userId/')
   async getTransactionHistory(
     @Param('userId') userId: string,
