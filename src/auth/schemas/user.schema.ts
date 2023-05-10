@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import {
   Transaction,
   TransactionSchema,
@@ -8,7 +8,7 @@ import {
 @Schema({
   timestamps: true,
 })
-export class User {
+export class User extends Document {
   @Prop({ unique: true, required: true })
   name: string;
 
@@ -35,7 +35,7 @@ export class User {
 
   // @Prop({ type: Types.ObjectId, ref: 'Transaction' })
   // transactions: Transaction;
-  @Prop([{ type: Types.ObjectId, ref: 'Transaction' }])
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Transaction' }] })
   transactions: Transaction[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -21,7 +21,8 @@ export class TransactionService {
 
     return { user };
   }
-  async deposit(userId: string, transactionDto: TransactionDto) {
+
+  async deposits(userId: string, transactionDto: TransactionDto) {
     const { amount, createdAt } = transactionDto;
     const user = await this.userModel.findById(userId);
 
@@ -44,10 +45,9 @@ export class TransactionService {
       createdAt,
     });
     await transaction.save();
-    user.transactions.push(transaction);
+    user.transactions.push(transaction._id);
     return { message: 'Deposit successful' };
   }
-
   async makeWithdrawal(userId: string, amount: number) {
     // const { userId, amount } = transactionDto;
 
@@ -61,9 +61,9 @@ export class TransactionService {
     const transaction = await this.transactionModel.create({
       userId,
       transactionType: 'withdrawal',
-      amount: -amount, // Withdrawals are represented as negative amounts
+      amount: amount, // Withdrawals are represented as negative amounts
     });
-    user.transactions.push(transaction);
+    user.transactions.push(transaction._id);
     user.accountBalance -= amount;
     await user.save();
     await transaction.save();
