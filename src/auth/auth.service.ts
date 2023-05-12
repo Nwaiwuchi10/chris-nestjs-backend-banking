@@ -24,8 +24,7 @@ export class AuthService {
   // const mailConfig = this.configService.get('mail');
 
   async signUp(signUpDto: SignUpDto) {
-    const { name, email, password, phoneNumber, transactions, bankName } =
-      signUpDto;
+    const { name, email, password, phoneNumber, transactions } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountNumber = phoneNumber;
@@ -41,18 +40,19 @@ export class AuthService {
       password: hashedPassword,
     });
     await user.save();
-    this.jwtService.sign({
-      id: user._id,
-    });
+    // const token=this.jwtService.sign({
+    //   id: user._id,
+    // });
 
     await this.mailService.sendRegistrationEmail(
       email,
       name,
       accountNumber,
       accountName,
-      bankName,
     );
     return {
+      //  token: this.jwtService.sign({ Id: user._id }),
+
       email: user.email,
       name: user.name,
       accountNumber: user.accountNumber,
@@ -77,7 +77,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    this.jwtService.sign({ id: user._id });
+    // this.jwtService.sign({_id: user._id });
 
     return {
       email: user.email,
@@ -87,6 +87,8 @@ export class AuthService {
       bankName: user.bankName,
       phoneNumber: user.phoneNumber,
       _id: user._id,
+      // user,
+      // token: this.jwtService.sign({ email }),
     };
   }
   async findAll() {
@@ -95,7 +97,7 @@ export class AuthService {
   }
 
   async findById(_id: string) {
-    const user = await this.userModel.findById(_id);
+    const user = await this.userModel.findById(_id).populate('transactions');
     if (!user) {
       throw new NotFoundException('User not found.');
     }

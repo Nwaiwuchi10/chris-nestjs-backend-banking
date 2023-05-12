@@ -32,20 +32,22 @@ export class TransactionService {
     // const newBalance = user.accountBalance + amount;
 
     user.accountBalance += amount;
-    await user.save();
+
     if (amount <= 0) {
       throw new BadRequestException('Amount must be greater than zero');
     }
 
     const transaction = new this.transactionModel({
       userId,
-      amount,
+      amount: amount,
 
       transactionType: 'deposit',
       createdAt,
     });
-    await transaction.save();
+    await user.save();
     user.transactions.push(transaction._id);
+    await transaction.save();
+
     return { message: 'Deposit successful' };
   }
   async makeWithdrawal(userId: string, amount: number) {

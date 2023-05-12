@@ -21,7 +21,6 @@ export class MailService {
     name: string,
     accountNumber: string,
     accountName: string,
-    bankName: string,
   ) {
     const mailOptions = {
       from: 'djnchrys@gmail.com',
@@ -30,7 +29,7 @@ export class MailService {
       text: `Hello ${name},
       \n\your bank Details has sucessfully been created,
        here is your Account details: Account Number:${accountNumber},
-        Account Name:${accountName}, Bank Name:${bankName}`,
+        Account Name:${accountName}, Bank Name:chrisBank`,
     };
 
     await this.transporter.sendMail(mailOptions);
