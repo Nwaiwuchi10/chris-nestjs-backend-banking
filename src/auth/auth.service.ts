@@ -24,7 +24,8 @@ export class AuthService {
   // const mailConfig = this.configService.get('mail');
 
   async signUp(signUpDto: SignUpDto) {
-    const { name, email, password, phoneNumber, transactions } = signUpDto;
+    const { name, email, password, phoneNumber, transactions, accountBalance } =
+      signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountNumber = phoneNumber;
@@ -49,6 +50,7 @@ export class AuthService {
       name,
       accountNumber,
       accountName,
+      accountBalance,
     );
     return {
       token: this.jwtService.sign({ Id: user._id }),
