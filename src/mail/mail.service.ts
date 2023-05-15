@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
+
 import * as nodemailer from 'nodemailer';
+
 @Injectable()
 export class MailService {
   private transporter: nodemailer.Transporter;
@@ -29,7 +31,7 @@ export class MailService {
       text: `Hello ${name},
       \n\your bank Details has sucessfully been created,
        here is your Account details: Account Number:${accountNumber},
-        Account Name:${accountName}, Bank Name:chrisBank`,
+        Account Name:${accountName}, Bank Name:chrisBank, account balance:0.00`,
     };
 
     await this.transporter.sendMail(mailOptions);

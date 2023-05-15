@@ -51,7 +51,7 @@ export class AuthService {
       accountName,
     );
     return {
-      //  token: this.jwtService.sign({ Id: user._id }),
+      token: this.jwtService.sign({ Id: user._id }),
 
       email: user.email,
       name: user.name,
@@ -88,7 +88,7 @@ export class AuthService {
       phoneNumber: user.phoneNumber,
       _id: user._id,
       // user,
-      // token: this.jwtService.sign({ email }),
+      token: this.jwtService.sign({ email }),
     };
   }
   async findAll() {
