@@ -24,8 +24,7 @@ export class AuthService {
   // const mailConfig = this.configService.get('mail');
 
   async signUp(signUpDto: SignUpDto) {
-    const { name, email, password, phoneNumber, transactions, accountBalance } =
-      signUpDto;
+    const { name, email, password, phoneNumber, transactions } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountNumber = phoneNumber;
@@ -50,18 +49,15 @@ export class AuthService {
       name,
       accountNumber,
       accountName,
-      accountBalance,
     );
     return {
-      token: this.jwtService.sign({ Id: user._id }),
-
+      _id: user._id,
       email: user.email,
       name: user.name,
       accountNumber: user.accountNumber,
       accountName: user.accountName,
       bankName: user.bankName,
       phoneNumber: user.phoneNumber,
-      _id: user._id,
     };
   }
   async login(loginDto: LoginDto) {
@@ -90,7 +86,7 @@ export class AuthService {
       phoneNumber: user.phoneNumber,
       _id: user._id,
       // user,
-      token: this.jwtService.sign({ email }),
+      // token: this.jwtService.sign({ email }),
     };
   }
   async findAll() {

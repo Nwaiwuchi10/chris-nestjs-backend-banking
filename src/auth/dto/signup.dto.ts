@@ -27,6 +27,6 @@ export class SignUpDto {
   readonly bankName: string;
   readonly accountName: string;
   readonly accountNumber: string;
-  readonly accountBalance: number;
+
   readonly transactions: [];
 }
