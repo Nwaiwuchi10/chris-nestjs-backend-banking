@@ -20,6 +20,10 @@ export class SignUpDto {
   @MinLength(6)
   readonly password: string;
 
+  @IsString()
+  @MinLength(4)
+  readonly transactionPin: string;
+
   @IsNotEmpty()
   @IsString()
   @MaxLength(11)

@@ -102,4 +102,14 @@ export class AuthService {
 
     return user;
   }
+  async updateTransactionPinById(id: string, signUpDto: SignUpDto) {
+    const { transactionPin } = signUpDto;
+    const hashedPassword = await bcrypt.hash(transactionPin, 10);
+    const updatedDocument = await this.userModel.findByIdAndUpdate(
+      id,
+      { transactionPin: hashedPassword },
+      { new: true },
+    );
+    return updatedDocument;
+  }
 }

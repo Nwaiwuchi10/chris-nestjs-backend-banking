@@ -24,7 +24,7 @@ export class TransactionService {
 
   async deposits(userId: string, transactionDto: TransactionDto) {
     const { amount, createdAt } = transactionDto;
-    const user = await this.userModel.findById(userId);
+    const user = await this.userModel.findById(userId).populate('transactions');
 
     if (!user) {
       throw new Error('User not found');

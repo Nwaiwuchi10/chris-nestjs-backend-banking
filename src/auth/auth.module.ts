@@ -11,6 +11,7 @@ import {
   TransactionSchema,
 } from 'src/transaction/schemas/transaction.schema';
 import { MailModule } from 'src/mail/mail.module';
+import { TransferSchema } from 'src/transfer/schemas/transfer.schema';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MailModule } from 'src/mail/mail.module';
     MongooseModule.forFeature([
       { name: 'Transaction', schema: TransactionSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Transfer', schema: TransferSchema }]),
     MailModule,
   ],
 

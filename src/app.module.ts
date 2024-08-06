@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MailModule } from './mail/mail.module';
+import { TransferModule } from './transfer/transfer.module';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import { MailModule } from './mail/mail.module';
     TransactionModule,
 
     MailModule,
+
+    TransferModule,
   ],
 
   controllers: [AppController],

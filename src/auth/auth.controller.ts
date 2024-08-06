@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
@@ -28,5 +28,14 @@ export class AuthController {
     id: string,
   ) {
     return this.authService.findById(id);
+  }
+  @Put('/updatePin/:id')
+  async updateBook(
+    @Param('id')
+    id: string,
+    @Body()
+    signUpDto: SignUpDto,
+  ) {
+    return this.authService.updateTransactionPinById(id, signUpDto);
   }
 }
